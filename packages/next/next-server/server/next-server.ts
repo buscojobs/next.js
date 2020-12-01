@@ -1153,7 +1153,9 @@ export default class Server {
       return this.render404(req, res, parsedUrl)
     }
 
-    const html = await this.renderToHTML(req, res, pathname, query)
+    const host = req.headers.host
+
+    const html = await this.renderToHTML(req, res, pathname, query, host)
     // Request was ended by the user
     if (html === null) {
       return
@@ -1652,7 +1654,8 @@ export default class Server {
     req: IncomingMessage,
     res: ServerResponse,
     pathname: string,
-    query: ParsedUrlQuery = {}
+    query: ParsedUrlQuery = {},
+    host?: string
   ): Promise<string | null> {
     try {
       const result = await this.findPageComponents(pathname, query)
@@ -1663,7 +1666,7 @@ export default class Server {
             res,
             pathname,
             result,
-            { ...this.renderOpts }
+            { ...this.renderOpts, host }
           )
         } catch (err) {
           if (!(err instanceof NoFallbackError)) {
@@ -1691,7 +1694,7 @@ export default class Server {
                 res,
                 dynamicRoute.page,
                 dynamicRouteResult,
-                { ...this.renderOpts, params }
+                { ...this.renderOpts, params, host }
               )
             } catch (err) {
               if (!(err instanceof NoFallbackError)) {

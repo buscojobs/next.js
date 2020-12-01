@@ -90,6 +90,7 @@ export type GetStaticPropsContext<Q extends ParsedUrlQuery = ParsedUrlQuery> = {
   previewData?: any
   locale?: string
   locales?: string[]
+  host?: string
   defaultLocale?: string
 }
 

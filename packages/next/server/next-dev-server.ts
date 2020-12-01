@@ -572,7 +572,8 @@ export default class DevServer extends Server {
     req: IncomingMessage,
     res: ServerResponse,
     pathname: string,
-    query: { [key: string]: string }
+    query: { [key: string]: string },
+    host?: string
   ): Promise<string | null> {
     await this.devReady
     const compilationErr = await this.getCompilationError(pathname)
@@ -613,7 +614,7 @@ export default class DevServer extends Server {
       }
       if (!this.quiet) console.error(err)
     }
-    const html = await super.renderToHTML(req, res, pathname, query)
+    const html = await super.renderToHTML(req, res, pathname, query, host)
     return html
   }
 

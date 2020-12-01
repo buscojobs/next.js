@@ -171,6 +171,7 @@ export type RenderOptsPartial = {
   locale?: string
   locales?: string[]
   defaultLocale?: string
+  host?: string
 }
 
 export type RenderOpts = LoadComponentsReturnType & RenderOptsPartial
@@ -606,6 +607,7 @@ export async function renderToHTML(
           ...(previewData !== false
             ? { preview: true, previewData: previewData }
             : undefined),
+          host: renderOpts.host,
           locales: renderOpts.locales,
           locale: renderOpts.locale,
           defaultLocale: renderOpts.defaultLocale,
